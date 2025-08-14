@@ -1,0 +1,27 @@
+Display name:Scheduler
+Application (client) ID:c183e5f2-6926-409b-895e-c6184af0080c
+Object ID:ca691fce-7bbc-4edb-8dfc-ff25f509a552
+Directory (tenant) ID:021887c8-7cf4-4c34-a04f-e302446416e6
+TENANT_ID = '021887c8-7cf4-4c34-a04f-e302446416e6'
+
+
+Client secret:
+name: Scheduler_Secret
+Value: Nbw8Q~Nq2ZkKfQC.DAnnCqdFp9LbQS0Mi6B2BcWF
+Secret ID: 52b41642-95e9-460d-b126-c61856a74a80
+
+
+
+
+paulsonsunny.com.au
+Record type: TXT
+alias: @
+Destimation or points to address: MS=ms11262802
+TTL: 3600
+
+
+Superuser:
+username: psunny
+email: paulsonsunnypro@gmail.com
+password: D3t4ldoorWir3l355!
+

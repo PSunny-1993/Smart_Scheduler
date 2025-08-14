@@ -1,0 +1,91 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Estimating List</h2>
+    <button id="refreshBtn" class="btn btn-primary">🔄 Refresh</button>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>Due Date</th>
+        <th>Project</th>
+        <th>Builders</th>
+        <th>Added By</th>
+        <th>Estimator</th>
+        <th>Comments</th>
+        <th>Completed</th>
+        <th>Not Quoting</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tender in tenders %}
+      <tr class="{% if tender.estimator %}table-success{% endif %}">
+        <td>{{ tender.tender_due_date|date:'d/m/Y' }}</td>
+        <td>{{ tender.tender_name }}</td>
+        <td>
+          {% for customer in tender.customers.all %}
+          <span class="badge bg-secondary">{{ customer.name }}</span>
+          {% endfor %}
+        </td>
+        <td>{{ tender.get_added_by_short }}</td>
+        <td>{{ tender.get_estimator_short }}</td>
+        <td>{{ tender.remarks }}</td>
+        <td>
+          <input
+            type="checkbox"
+            {%
+            if
+            tender.is_completed
+            %}checked{%
+            endif
+            %}
+            disabled
+          />
+        </td>
+        <td>
+          <input
+            type="checkbox"
+            {%
+            if
+            not
+            tender.is_quoting
+            %}checked{%
+            endif
+            %}
+            disabled
+          />
+        </td>
+        <td>
+          <button class="btn btn-sm btn-success">Create Quote</button>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="9">No tenders available.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+  document.getElementById("refreshBtn").addEventListener("click", function () {
+    fetch("{% url 'run_email_parser' %}", {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "success") {
+          location.reload();
+        } else {
+          alert("Refresh failed: " + data.message);
+        }
+      });
+  });
+</script>
+{% endblock %}
